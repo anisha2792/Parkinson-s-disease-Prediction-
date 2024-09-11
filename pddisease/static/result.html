@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkinson's Disease Test Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #bac5dd;
+            margin: 0;
+            padding: 0;
+        }
+        body h1{
+            padding-top: 2px;
+            padding-left: 100px;
+        }
+        #greeting{
+            padding-left: 435px;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        #main {
+            padding: 50px;
+            background: rgb(230, 230, 230);
+            margin-top: 6px;
+            width: inherit;
+            display: block;
+            align-content: center;
+            height: 73vh;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #d2c6e7;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="main">
+            <h1>WELCOME TO PARKINSON'S DISEASE TEST REPORT</h1><br>
+            <p id="greeting"></p>
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+    <script>
+        function getParameterByName(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const name = getParameterByName('name');
+            const age = getParameterByName('age');
+            const prediction = getParameterByName('prediction');
+
+            document.getElementById('greeting').innerText = `Patient Name: ${name}\n\nPatient Age: ${age}`;
+            document.getElementById('result').innerText = `Test result: ${prediction}`;});
+    </script>
+</body>
+
+</html>

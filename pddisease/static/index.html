@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkinson's Disease Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d6ddec;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        #main {
+            padding: 20px;
+            background: rgb(230, 230, 230);
+            margin-top: 20px;
+            width: inherit;
+            display: block;
+            align-content: center;
+        }
+
+        .input-field {
+            margin-bottom: 10px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .name label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .name input {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .Age label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .Age input {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .btn {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #555;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #d9d0e9;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="nameForm">
+            <div id="main">
+                <h1>Parkinson's Disease Prediction</h1>
+                <div class="name">
+                    <label for="Name">Enter your name</label>
+                    <input type="text" id="Name" placeholder="Enter name">
+                </div>
+                <br>
+                <br>
+                <div class="Age">
+                    <label for="Age">Enter your Age</label>
+                    <input type="number" name="Age" id="Age" placeholder="Enter Age">
+                </div>
+                <br>
+                <br>
+                <div class="input-field">
+                    <label for="input-data">Enter the features:</label>
+                    <input type="text" id="input-data" placeholder="Comma separated values">
+                </div>
+            </div>
+        </form>
+        <button class="btn" onclick="getPrediction()">Predict</button>
+        <div id="error-message" class="error"></div>
+    </div>
+    <script>
+        async function getPrediction() {
+            const name = document.getElementById('Name').value.trim();
+            const age = document.getElementById('Age').value.trim();
+            const inputData = document.getElementById('input-data').value.trim();
+            const errorMessage = document.getElementById('error-message');
+
+            // Clear previous error messages
+            errorMessage.textContent = '';
+
+            // Validate the name and age fields
+            if (!name) {
+                errorMessage.textContent = 'Please enter your name.';
+                return;
+            }
+
+            if (!age) {
+                errorMessage.textContent = 'Please enter your age.';
+                return;
+            }
+
+            // Validate input data
+            if (!inputData) {
+                errorMessage.textContent = 'Please enter the features.';
+                return;
+            }
+
+            const inputArray = inputData.split(',').map(Number);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input_data: inputArray })
+            });
+            const result = await response.json();
+
+            // Redirect to result page with necessary parameters
+           // Assuming name, age, and result.prediction are already defined
+
+// Construct the URL with encoded query parameters
+const url = `result.html?name=${encodeURIComponent(name)}&age=${encodeURIComponent(age)}&prediction=${encodeURIComponent(result.prediction)}`;
+
+// Redirect the browser to the constructed URL
+window.location.href = url;
+}
+    </script>
+</body>
+
+</html>
